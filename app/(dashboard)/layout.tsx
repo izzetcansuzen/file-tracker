@@ -10,7 +10,7 @@ export default function HomeLayout({children}: Props){
         <div className=''>
             <Sidebar className='hidden lg:flex'/>
             <Header />
-            <main className='bg-red-500 h-screen w-full lg:pl-56'>
+            <main className='bg-red-500 h-screen w-full lg:ml-60 mt-2'>
                 {children}
             </main>
         </div>
