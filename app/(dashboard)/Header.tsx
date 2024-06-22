@@ -8,10 +8,10 @@ import {Menu} from "lucide-react"
 import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
 
 export default function Header(){
-    /*TODO: profile image alanı eklenmeli (burası clerk'mü olacak?)*/
     /*TODO: search alanı eklenmeli*/
     return (
         <nav className='lg:ml-56 h-14 flex items-center justify-between px-4 border-b-2'>
+            <div className='hidden lg:flex'></div>
             <div className='flex lg:hidden'>
                 <Sheet>
                     <SheetTrigger><Menu /></SheetTrigger>
@@ -20,12 +20,14 @@ export default function Header(){
                     </SheetContent>
                 </Sheet>
             </div>
-            <SignedOut>
-                <SignInButton />
-            </SignedOut>
-            <SignedIn>
-                <UserButton />
-            </SignedIn>
+           <div className='self-center'>
+               <SignedOut>
+                   <SignInButton />
+               </SignedOut>
+               <SignedIn>
+                   <UserButton />
+               </SignedIn>
+           </div>
         </nav>
     )
 }
