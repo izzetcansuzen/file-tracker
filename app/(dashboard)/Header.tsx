@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/sheet"
 import Sidebar from "@/app/(dashboard)/Sidebar"
 import {Menu} from "lucide-react"
+import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
 
 export default function Header(){
     /*TODO: profile image alanı eklenmeli (burası clerk'mü olacak?)*/
@@ -19,6 +20,12 @@ export default function Header(){
                     </SheetContent>
                 </Sheet>
             </div>
+            <SignedOut>
+                <SignInButton />
+            </SignedOut>
+            <SignedIn>
+                <UserButton />
+            </SignedIn>
         </nav>
     )
 }
