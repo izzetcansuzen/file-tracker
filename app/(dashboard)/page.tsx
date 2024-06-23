@@ -53,7 +53,9 @@ export default async function Home() {
                     )
                 })}
             </div>
-            <DataTable columns={columns} data={data} />
+            <div className='w-full overflow-scroll'>
+                <DataTable columns={columns} data={data} />
+            </div>
         </div>
 
 )
