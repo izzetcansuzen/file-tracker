@@ -1,4 +1,4 @@
-import {boolean, integer, pgTable, serial, text} from "drizzle-orm/pg-core";
+import {boolean, date, integer, pgTable, serial, text} from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
     id: serial("id").primaryKey(),
@@ -9,18 +9,18 @@ export const users = pgTable("users", {
     companyId: integer('company_id').references(() => companies.id),
 })
 
-export const companies = pgTable("compaines", {
+export const companies = pgTable("companies", {
     id: serial("id").primaryKey(),
     name: text("name").notNull(),
 })
 
-export const files = pgTable("files", {
+export const files = pgTable('files', {
     id: serial("id").primaryKey(),
     name: text('name').notNull(),
-    startDate: integer('start_date').notNull(),
-    endDate: integer('end_date').notNull(),
+    startDate: date('start_date').notNull(),
+    endDate: date('end_date').notNull(),
     url: text('url').notNull(),
-    userId: integer('id').references(() => users.id),
+    userId: integer('user_id').references(() => users.id),
     typeId: integer('type_id').references(() => fileTypes.id),
 })
 
