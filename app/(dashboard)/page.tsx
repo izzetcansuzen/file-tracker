@@ -1,4 +1,6 @@
 import InfoCard from "@/app/(dashboard)/InfoCard";
+import {DataTable} from "@/app/(dashboard)/DataTable";
+import {columns, UserFiles} from "@/app/(dashboard)/Columns";
 
 interface cardData {
     title: string;
@@ -24,17 +26,35 @@ const cardData: cardData[] = [
     },
 ]
 
-export default function Home() {
+async function getData(): Promise<UserFiles[]> {
+    // Fetch data from your API here.
+    return [
+        {
+            id: "728ed52f",
+            name: "John",
+            file: "Ehliyet",
+            end_date: "12.20.2025",
+            remaining_day: 12
+        },
+        // ...
+    ]
+}
+
+export default async function Home() {
+    const data = await getData()
     return (
-        /*Info Card Container*/
-        <div className='grid grid-cols-auto-fit-100 gap-2 justify-items-center'>
-            {cardData.map(data => {
-                return (
-                    <InfoCard
-                        data={data}
-                    />
-                )
-            })}
+        <div className='grid gap-4'>
+            <div className='grid grid-cols-auto-fit-100 gap-2 justify-items-center'>
+                {cardData.map(data => {
+                    return (
+                        <InfoCard
+                            data={data}
+                        />
+                    )
+                })}
+            </div>
+            <DataTable columns={columns} data={data} />
         </div>
-    )
+
+)
 }
