@@ -1,23 +1,49 @@
 import {Button} from "@/components/ui/button";
-import {File} from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
-/*TODO: Sidebar bilgileri eklenmeli*/
-const sideBarItems = {
-
+interface SidebarItemsProps {
+    label : string;
+    href : string;
+    icon: string;
 }
 
+const sideBarItems: SidebarItemsProps[] = [
+    {
+        label: 'Home',
+        href: '/',
+        icon: '/house.svg'
+    },
+    {
+        label: 'Files',
+        href: '/files',
+        icon: '/files.svg'
+    },
+    {
+        label: 'Users',
+        href: '/users',
+        icon: '/users.svg'
+    }
+]
+
 export default function SidebarContent(){
-    /*TODO: Linkleri componentleştir*/
-    /*TODO: Linkleri dinamikleştir*/
-    /*TODO: Iconları nasıl dinamikleştirebiliriz?*/
     return (
         <div className='grid gap-2'>
-            <Link href='/'>
-                <Button variant='sideBar'>
-                    <File /> <p className='overflow-hidden text-ellipsis whitespace-nowrap'>Item</p>
-                </Button>
-            </Link>
+            {sideBarItems.map(item => {
+                return (
+                    <Link href={item.href}>
+                        <Button variant='sideBar'>
+                            <Image
+                                src={item.icon}
+                                alt={item.label}
+                                width={20}
+                                height={20}
+                            />
+                            <p className='overflow-hidden text-ellipsis whitespace-nowrap'>{item.label}</p>
+                        </Button>
+                    </Link>
+                )
+            })}
         </div>
     )
 }
