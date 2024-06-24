@@ -11,26 +11,26 @@ import {FolderX, Download, View} from "lucide-react";
 export type UserFiles = {
     id: string
     name: string
-    file: string
-    end_date: string
+    url: string
+    endDate: string
     remaining_day: number
 }
 
 export const columns: ColumnDef<UserFiles>[] = [
     {
         accessorKey: "name",
-        header: "Ad",
+        header: "Kullanıcı",
     },
     {
-        accessorKey: "file",
+        accessorKey: "url",
         header: "Dosya",
     },
     {
-        accessorKey: "end_date",
+        accessorKey: "endDate",
         header: "Bitiş Tarihi",
     },
     {
-        accessorKey: "remaining_day",
+        accessorKey: "remainingDay",
         header: "Kalan Gün",
     },
     {
