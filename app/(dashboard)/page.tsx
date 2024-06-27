@@ -6,29 +6,30 @@ import {getFiles} from "@/db/queries";
 interface cardData {
     title: string;
     color: string;
-    value: number;
+    status: string;
 }
 
 const cardData: cardData[] = [
     {
         title: "Toplam Dosya",
         color: "success",
-        value: 20
+        status: "length",
     },
     {
         title: "5 Gün Sonra Biten",
         color: "warning",
-        value: 15
+        status: "left"
     },
     {
         title: "Süresi Geçen Dosyalar",
         color: "destructive",
-        value: 1
+        status: "expired"
     },
 ]
 
 export default async function Home() {
     let data = await getFiles()
+
     return (
         <div className='grid gap-4'>
             <div className='grid grid-cols-auto-fit-100 gap-2 justify-items-center'>
@@ -36,6 +37,7 @@ export default async function Home() {
                     return (
                         <InfoCard
                             cardData={cardData}
+                            data={data}
                         />
                     )
                 })}
