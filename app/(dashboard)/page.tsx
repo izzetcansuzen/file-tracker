@@ -32,6 +32,7 @@ export default async function Home() {
 
     return (
         <div className='grid gap-4'>
+            {JSON.stringify(data, null, 2)}
             <div className='grid grid-cols-auto-fit-100 gap-2 justify-items-center'>
                 {cardData.map(cardData => {
                     return (

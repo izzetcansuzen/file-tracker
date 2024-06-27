@@ -34,6 +34,7 @@ export default function InfoCard({cardData, data} : InfoCardProps){
         <div className='p-4 bg-white shadow-md rounded-md w-[80%] flex justify-between items-center'>
             <h4 className='font-bold text-xs md:text-lg'>{cardData.title}</h4>
             <Button variant={cardData.color} className='font-bold text-white w-10'>
+                {/*@ts-ignore*/}
                 {data.length}
             </Button>
         </div>
