@@ -1,3 +1,4 @@
+"use client"
 import {
     Dialog,
     DialogContent,
@@ -6,21 +7,19 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
+import AddFileForm from "./AddFileForm";
+
 
 export default function AddFileButton(){
     return (
         <Dialog>
-            <DialogTrigger>
-                <Button variant='default'>Open</Button>
+            <DialogTrigger asChild>
+                <Button>Dosya Ekle</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                        This action cannot be undone. This will permanently delete your account
-                        and remove your data from our servers.
-                    </DialogDescription>
+                    <AddFileForm />
                 </DialogHeader>
             </DialogContent>
         </Dialog>
