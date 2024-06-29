@@ -30,11 +30,11 @@ const cardData: cardData[] = [
 
 export default async function Home() {
     let fileData = await getFiles()
-    let userData = await getAllUserNamesAndIds()
+    let userNameAndIds = await getAllUserNamesAndIds()
 
     return (
         <div className='grid gap-4'>
-            {JSON.stringify(userData, null, 2)}
+            {JSON.stringify(userNameAndIds, null, 2)}
             <div className='grid grid-cols-auto-fit-100 gap-2 justify-items-center'>
                 {cardData.map(cardData => {
                     return (
