@@ -5,12 +5,18 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
@@ -18,7 +24,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { z } from "zod"
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {cn} from "@/lib/utils";
-import {getFiles, getUsers} from "@/db/queries";
+
 
 const formSchema = z.object({
     username: z.string().min(2).max(50),
@@ -64,9 +70,16 @@ export default function AddFileForm(){
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Kullanıcı Adı</FormLabel>
-                            <FormControl>
-                                <Input placeholder="shadcn" {...field} />
-                            </FormControl>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Dosyanın kime ait olacağını seçin" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    <SelectItem value="m@example.com">m@example.com</SelectItem>
+                                </SelectContent>
+                            </Select>
                             <FormMessage />
                         </FormItem>
                     )}
