@@ -25,6 +25,7 @@ import { z } from "zod"
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {cn} from "@/lib/utils";
 
+
 const formSchema = z.object({
     userId: z.string(),
     name: z.string().min(2).max(50),
@@ -142,7 +143,7 @@ export default function AddFileForm({userNameAndIds, allFileTypes} : Props){
                                             )}
                                         >
                                             {field.value ? (
-                                                format(field.value, "PPP")
+                                                format(field.value, "dd-MM-yyyy")
                                             ) : (
                                                 <span>Pick a date</span>
                                             )}
@@ -183,7 +184,7 @@ export default function AddFileForm({userNameAndIds, allFileTypes} : Props){
                                             )}
                                         >
                                             {field.value ? (
-                                                format(field.value, "PPP")
+                                                format(field.value, "dd-MM-yyyy")
                                             ) : (
                                                 <span>Pick a date</span>
                                             )}
@@ -196,6 +197,7 @@ export default function AddFileForm({userNameAndIds, allFileTypes} : Props){
                                         mode="single"
                                         selected={field.value}
                                         onSelect={field.onChange}
+                                        format="YYYY-MM-DD"
                                         disabled={(date) =>
                                             date > new Date() || date < new Date("1900-01-01")
                                         }
