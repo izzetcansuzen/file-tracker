@@ -47,7 +47,9 @@ export default async function Home() {
             </div>
             <div className='w-full overflow-scroll grid gap-2'>
                 <div className='justify-self-end'>
-                    <AddFileSection />
+                    <AddFileSection
+                        userNameAndIds={userNameAndIds}
+                    />
                 </div>
                 <DataTable
                     columns={columns}

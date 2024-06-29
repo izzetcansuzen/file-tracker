@@ -8,8 +8,11 @@ import {
 import { Button } from "@/components/ui/button"
 import AddFileForm from "./AddFileForm";
 
+interface Props{
+    userNameAndIds: Array<Object>
+}
 
-export default function AddFileSection(){
+export default function AddFileSection({userNameAndIds} : Props){
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -17,7 +20,9 @@ export default function AddFileSection(){
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <AddFileForm />
+                    <AddFileForm
+                        userNameAndIds={userNameAndIds}
+                    />
                 </DialogHeader>
             </DialogContent>
         </Dialog>

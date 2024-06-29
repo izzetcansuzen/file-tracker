@@ -27,7 +27,7 @@ import {cn} from "@/lib/utils";
 
 
 const formSchema = z.object({
-    username: z.string().min(2).max(50),
+    username: z.string(),
     name: z.string().min(2).max(50),
     file: z.any().refine(val => val.length > 0, "File is required"),
     startDate: z.date({
@@ -40,8 +40,11 @@ const formSchema = z.object({
     userId: z.number(),
 })
 
+interface Props{
+    userNameAndIds: Array<Object>
+}
 
-export default function AddFileForm(){
+export default function AddFileForm({userNameAndIds} : Props){
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -77,6 +80,11 @@ export default function AddFileForm(){
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
+                                    {userNameAndIds.map((item) => {
+                                        return (
+                                            <SelectItem value={"" + item?.id}>{item?.name}</SelectItem>
+                                        )
+                                    })}
                                     <SelectItem value="m@example.com">m@example.com</SelectItem>
                                 </SelectContent>
                             </Select>
