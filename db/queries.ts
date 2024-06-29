@@ -38,3 +38,13 @@ export const getAllUserNamesAndIds = cache(async () => {
 
     return data
 })
+
+export const getAllFileTypes = cache(async () => {
+    const data = await db.query.fileTypes.findMany()
+
+    if(!data || data.length < 0) {
+        throw new Error("veri bulunamadı")
+    }
+
+    return data
+})

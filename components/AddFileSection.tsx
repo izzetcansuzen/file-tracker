@@ -10,9 +10,10 @@ import AddFileForm from "./AddFileForm";
 
 interface Props{
     userNameAndIds: Array<Object>
+    allFileTypes: Array<Object>
 }
 
-export default function AddFileSection({userNameAndIds} : Props){
+export default function AddFileSection({userNameAndIds, allFileTypes} : Props){
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -22,6 +23,7 @@ export default function AddFileSection({userNameAndIds} : Props){
                 <DialogHeader>
                     <AddFileForm
                         userNameAndIds={userNameAndIds}
+                        allFileTypes={allFileTypes}
                     />
                 </DialogHeader>
             </DialogContent>

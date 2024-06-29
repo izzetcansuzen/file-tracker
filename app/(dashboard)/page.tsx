@@ -1,7 +1,7 @@
 import InfoCard from "@/app/(dashboard)/InfoCard";
 import {DataTable} from "@/app/(dashboard)/DataTable";
 import {columns} from "@/app/(dashboard)/Columns";
-import {getAllUserNamesAndIds, getFiles} from "@/db/queries";
+import {getAllFileTypes, getAllUserNamesAndIds, getFiles} from "@/db/queries";
 import AddFileSection from "@/components/AddFileSection";
 
 interface cardData {
@@ -31,6 +31,7 @@ const cardData: cardData[] = [
 export default async function Home() {
     let fileData = await getFiles()
     let userNameAndIds = await getAllUserNamesAndIds()
+    let allFileTypes = await getAllFileTypes()
 
     return (
         <div className='grid gap-4'>
@@ -49,6 +50,7 @@ export default async function Home() {
                 <div className='justify-self-end'>
                     <AddFileSection
                         userNameAndIds={userNameAndIds}
+                        allFileTypes={allFileTypes}
                     />
                 </div>
                 <DataTable

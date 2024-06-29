@@ -25,37 +25,34 @@ import { z } from "zod"
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {cn} from "@/lib/utils";
 
-
 const formSchema = z.object({
-    username: z.string(),
+    userId: z.string(),
     name: z.string().min(2).max(50),
-    file: z.any().refine(val => val.length > 0, "File is required"),
+    /*file: z.any().refine(val => val.length > 0, "File is required"),*/
     startDate: z.date({
         required_error: "A date of birth is required.",
     }),
     endDate: z.date({
         required_error: "A date of birth is required.",
     }),
-    typeId: z.number(),
-    userId: z.number(),
+    typeId: z.string(),
 })
 
 interface Props{
     userNameAndIds: Array<Object>
+    allFileTypes: Array<Object>
 }
 
-export default function AddFileForm({userNameAndIds} : Props){
+export default function AddFileForm({userNameAndIds, allFileTypes} : Props){
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
+            userId: 0,
             name: "",
-            file: "",
             startDate: "2020-01-01",
             endDate: "2020-01-01",
             typeId: 0,
-            userId: 0
         },
     })
 
@@ -69,7 +66,7 @@ export default function AddFileForm({userNameAndIds} : Props){
             <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
                 <FormField
                     control={form.control}
-                    name="username"
+                    name="userId"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Kullanıcı Adı</FormLabel>
@@ -85,7 +82,6 @@ export default function AddFileForm({userNameAndIds} : Props){
                                             <SelectItem value={"" + item?.id}>{item?.name}</SelectItem>
                                         )
                                     })}
-                                    <SelectItem value="m@example.com">m@example.com</SelectItem>
                                 </SelectContent>
                             </Select>
                             <FormMessage />
@@ -107,13 +103,24 @@ export default function AddFileForm({userNameAndIds} : Props){
                 />
                 <FormField
                     control={form.control}
-                    name="file"
+                    name="typeId"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Dosya</FormLabel>
-                            <FormControl>
-                                <Input placeholder="shadcn" {...field} />
-                            </FormControl>
+                            <FormLabel>Dosya Türü</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Dosyanın Türünü Seçin" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {allFileTypes.map((item) => {
+                                        return (
+                                            <SelectItem value={"" + item?.id}>{item?.name}</SelectItem>
+                                        )
+                                    })}
+                                </SelectContent>
+                            </Select>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -196,32 +203,6 @@ export default function AddFileForm({userNameAndIds} : Props){
                                     />
                                 </PopoverContent>
                             </Popover>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="typeId"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Dosya Türü</FormLabel>
-                            <FormControl>
-                                <Input placeholder="shadcn" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="userId"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Kullanıcı</FormLabel>
-                            <FormControl>
-                                <Input placeholder="shadcn" {...field} />
-                            </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
