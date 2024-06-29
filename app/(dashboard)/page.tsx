@@ -2,7 +2,7 @@ import InfoCard from "@/app/(dashboard)/InfoCard";
 import {DataTable} from "@/app/(dashboard)/DataTable";
 import {columns} from "@/app/(dashboard)/Columns";
 import {getAllUserNamesAndIds, getFiles} from "@/db/queries";
-import AddFileButton from "@/components/AddFileButton";
+import AddFileSection from "@/components/AddFileSection";
 
 interface cardData {
     title: string;
@@ -47,9 +47,12 @@ export default async function Home() {
             </div>
             <div className='w-full overflow-scroll grid gap-2'>
                 <div className='justify-self-end'>
-                    <AddFileButton />
+                    <AddFileSection />
                 </div>
-                <DataTable columns={columns} data={fileData} />
+                <DataTable
+                    columns={columns}
+                    data={fileData}
+                />
             </div>
         </div>
 )
