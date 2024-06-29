@@ -1,7 +1,7 @@
 import InfoCard from "@/app/(dashboard)/InfoCard";
 import {DataTable} from "@/app/(dashboard)/DataTable";
 import {columns} from "@/app/(dashboard)/Columns";
-import {getFiles} from "@/db/queries";
+import {getAllUserNamesAndIds, getFiles} from "@/db/queries";
 import AddFileButton from "@/components/AddFileButton";
 
 interface cardData {
@@ -29,17 +29,18 @@ const cardData: cardData[] = [
 ]
 
 export default async function Home() {
-    let data = await getFiles()
+    let fileData = await getFiles()
+    let userData = await getAllUserNamesAndIds()
 
     return (
         <div className='grid gap-4'>
-            {JSON.stringify(data, null, 2)}
+            {JSON.stringify(userData, null, 2)}
             <div className='grid grid-cols-auto-fit-100 gap-2 justify-items-center'>
                 {cardData.map(cardData => {
                     return (
                         <InfoCard
                             cardData={cardData}
-                            data={data}
+                            data={fileData}
                         />
                     )
                 })}
@@ -48,7 +49,7 @@ export default async function Home() {
                 <div className='justify-self-end'>
                     <AddFileButton />
                 </div>
-                <DataTable columns={columns} data={data} />
+                <DataTable columns={columns} data={fileData} />
             </div>
         </div>
 )

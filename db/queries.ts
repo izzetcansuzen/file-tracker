@@ -27,3 +27,14 @@ export const getFiles = cache(async () => {
 
     return updatedData;
 })
+
+export const getAllUserNamesAndIds = cache(async () => {
+    const data = await db.query.users.findMany({
+        columns: {
+            id: true,
+            name: true
+        }
+    })
+
+    return data
+})
