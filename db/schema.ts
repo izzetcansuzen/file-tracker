@@ -19,7 +19,6 @@ export const files = pgTable('files', {
     name: text('name').notNull(),
     startDate: date('start_date').notNull(),
     endDate: date('end_date').notNull(),
-    url: text('url').notNull(),
     userId: integer('user_id').references(() => users.id),
     typeId: integer('type_id').references(() => fileTypes.id),
 })
