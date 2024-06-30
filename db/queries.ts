@@ -1,5 +1,6 @@
 import db from "./drizzle"
 import {cache} from "react";
+import {files} from "@/db/schema";
 
 export const getFiles = cache(async () => {
     const data = await db.query.files.findMany()
@@ -48,3 +49,7 @@ export const getAllFileTypes = cache(async () => {
 
     return data
 })
+
+export const addFile = async (fileData: []) => {
+    return db.insert(files).values(fileData);
+}

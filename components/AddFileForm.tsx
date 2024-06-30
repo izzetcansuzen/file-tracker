@@ -24,6 +24,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { z } from "zod"
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {cn} from "@/lib/utils";
+import {addFile} from "@/db/queries";
 
 
 const formSchema = z.object({
@@ -57,10 +58,14 @@ export default function AddFileForm({userNameAndIds, allFileTypes} : Props){
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values)
+        try {
+            await addFile(values)
+        } catch (err){
+            console.log("dosya yüklenirken bir hata oluştu" + err)
+        }
     }
     return (
         <Form {...form}>
