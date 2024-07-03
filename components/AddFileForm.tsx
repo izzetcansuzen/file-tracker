@@ -62,7 +62,9 @@ export default function AddFileForm({userNameAndIds, allFileTypes} : Props){
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         try {
-            await addFile(values)
+            if(new Date(values.startDate) < new Date(values.endDate)){
+                await addFile(values)
+            }
         } catch (err){
             console.log("dosya yüklenirken bir hata oluştu" + err)
         }
