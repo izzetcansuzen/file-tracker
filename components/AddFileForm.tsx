@@ -25,7 +25,7 @@ import { z } from "zod"
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {cn} from "@/lib/utils";
 import {addFile} from "@/db/queries";
-
+import {useToast} from "@/components/ui/use-toast";
 
 const formSchema = z.object({
     userId: z.string(),
@@ -46,6 +46,7 @@ interface Props{
 }
 
 export default function AddFileForm({userNameAndIds, allFileTypes} : Props){
+    const { toast } = useToast()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -59,14 +60,34 @@ export default function AddFileForm({userNameAndIds, allFileTypes} : Props){
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
         try {
+            console.log(new Date(values.startDate) == new Date(values.endDate))
             if(new Date(values.startDate) < new Date(values.endDate)){
                 await addFile(values)
+                toast({
+                    title: 'Başarılı',
+                    description: `Veri başarılı bir şekilde eklendi!`,
+                    variant: 'default',
+                });
+            }if(new Date(values.startDate) > new Date(values.endDate)){
+                toast({
+                    title: 'Başarısız',
+                    description: `Başlangıç Tarihi Bitişten Küçük Olamaz! `,
+                    variant: 'destructive',
+                });
+            }if (new Date(values.startDate).getTime() === new Date(values.endDate).getTime()) {
+                toast({
+                    title: 'Başarısız',
+                    description: `Tarihler Eşit Olamaz`,
+                    variant: 'destructive',
+                });
             }
         } catch (err){
-            console.log("dosya yüklenirken bir hata oluştu" + err)
+            toast({
+                title: 'Bir Hata Oluştu',
+                description: `Veri başarılı bir şekilde eklenemedi! ${err}`,
+                variant: 'default',
+            });
         }
     }
     return (
