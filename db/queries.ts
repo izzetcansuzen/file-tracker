@@ -1,6 +1,7 @@
 import db from "./drizzle"
 import {cache} from "react";
-import {files} from "@/db/schema";
+import {files, users} from "@/db/schema";
+import {eq} from "drizzle-orm";
 
 export const getFiles = cache(async () => {
     const data = await db.query.files.findMany()
@@ -53,3 +54,38 @@ export const getAllFileTypes = cache(async () => {
 export const addFile = async (fileData: []) => {
     return db.insert(files).values(fileData);
 }
+
+export const getUsersAndFiles = cache(async () => {
+    const result = db.query.users.findMany({
+        columns:{
+            name: true,
+            isActive: true
+        }
+    })
+
+    const joinTable = await db.select().from(files).fullJoin(users, eq(files.userId, users.id))
+
+    const newArr = joinTable.reduce((old, curr) => {
+        const userIndex = old.findIndex(user => user.name === curr.users.name)
+
+        if(userIndex === -1){
+            old.push({
+                name: curr.users.name,
+                files: curr.files ? [curr.files] : []
+            })
+        }else{
+            if(curr.files){
+                old[userIndex].files.push(curr.files)
+            }
+        }
+
+        old.forEach(user => {
+            users.filesLength = user.files.length
+        })
+
+        return old
+    }, [])
+
+
+    return newArr
+})
