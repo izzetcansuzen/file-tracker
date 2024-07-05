@@ -56,12 +56,6 @@ export const addFile = async (fileData: []) => {
 }
 
 export const getUsersAndFiles = cache(async () => {
-    const result = db.query.users.findMany({
-        columns:{
-            name: true,
-            isActive: true
-        }
-    })
 
     const joinTable = await db.select().from(files).fullJoin(users, eq(files.userId, users.id))
 
@@ -71,21 +65,19 @@ export const getUsersAndFiles = cache(async () => {
         if(userIndex === -1){
             old.push({
                 name: curr.users.name,
-                files: curr.files ? [curr.files] : []
+                isActive: curr.users.isActive,
+                files: curr.files ? [curr.files] : [],
+                filesLength: curr.files ? 1 : 0
             })
         }else{
             if(curr.files){
                 old[userIndex].files.push(curr.files)
+                old[userIndex].filesLength = old[userIndex].files.length;
             }
         }
 
-        old.forEach(user => {
-            users.filesLength = user.files.length
-        })
-
         return old
     }, [])
-
 
     return newArr
 })
