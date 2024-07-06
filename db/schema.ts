@@ -3,8 +3,8 @@ import {boolean, date, integer, pgTable, serial, text} from "drizzle-orm/pg-core
 export const users = pgTable("users", {
     id: serial("id").primaryKey(),
     name: text('name').notNull(),
-    email: text('email').notNull(),
-    password: text('password').notNull(),
+    email: text('email'),
+    password: text('password'),
     isActive: boolean('is_active').notNull(),
     companyId: integer('company_id').references(() => companies.id),
 })
