@@ -108,3 +108,7 @@ export const getUsersAndFiles = cache(async () => {
 
     return newArr
 })
+
+export const getCompanies = cache(() => {
+    return db.query.companies.findMany()
+})
