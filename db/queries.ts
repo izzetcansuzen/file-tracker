@@ -60,19 +60,46 @@ export const getUsersAndFiles = cache(async () => {
     const joinTable = await db.select().from(files).fullJoin(users, eq(files.userId, users.id))
 
     const newArr = joinTable.reduce((old, curr) => {
+        // @ts-ignore
         const userIndex = old.findIndex(user => user.name === curr.users.name)
+        const currentDate = new Date();
 
         if(userIndex === -1){
+            const pastDate = new Date(curr.files.endDate);
+            const timeDifference = pastDate - currentDate;
+
+            const millisecondsInADay = 24 * 60 * 60 * 1000;
+            const daysDifference = Math.floor(timeDifference / millisecondsInADay);
+
+            const fileRemainings = daysDifference < 5 ? [curr.files.endDate] : [];
+
+
+            // @ts-ignore
             old.push({
+                // @ts-ignore
                 name: curr.users.name,
+                // @ts-ignore
                 isActive: curr.users.isActive,
                 files: curr.files ? [curr.files] : [],
-                filesLength: curr.files ? 1 : 0
+                filesLength: curr.files ? 1 : 0,
+                fileRemainings: fileRemainings,
+                fileRemainingsLength: fileRemainings.length
             })
         }else{
             if(curr.files){
                 old[userIndex].files.push(curr.files)
                 old[userIndex].filesLength = old[userIndex].files.length;
+
+                const pastDate = new Date(curr.files.endDate);
+                const timeDifference = pastDate - currentDate;
+                const millisecondsInADay = 24 * 60 * 60 * 1000;
+                const daysDifference = Math.floor(timeDifference / millisecondsInADay);
+
+                if (daysDifference < 5) {
+                    old[userIndex].fileRemainings.push(curr.files.endDate);
+                }
+
+                old[userIndex].fileRemainingsLength = old[userIndex].fileRemainings.length;
             }
         }
 
