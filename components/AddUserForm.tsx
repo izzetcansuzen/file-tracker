@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -16,16 +15,23 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import Link from "next/link";
 
 const formSchema = z.object({
     username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
+        message: "Kullanıcı adı en az 2 karakterden oluşmalıdır.",
     }),
+    companyId: z.string(),
+    isActive: z.boolean()
 })
 
-export function AddUserForm() {
-    // 1. Define your form.
+interface AddUserFormProps {
+    companies: [
+        id: number,
+        name: string
+    ]
+}
+
+export function AddUserForm({companies}: AddUserFormProps) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -35,13 +41,11 @@ export function AddUserForm() {
         },
     })
 
-    // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
         console.log(values)
     }
 
+    // @ts-ignore
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -71,7 +75,11 @@ export function AddUserForm() {
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    <SelectItem value="m@example.com">m@example.com</SelectItem>
+                                    {companies.map((item: {id: number, name: string}) => {
+                                        return (
+                                            <SelectItem value={"" + item.id}>{item.name}</SelectItem>
+                                        )
+                                    })}
                                 </SelectContent>
                             </Select>
                             <FormMessage />
