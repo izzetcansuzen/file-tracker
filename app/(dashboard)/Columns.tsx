@@ -19,7 +19,7 @@ export type UserFiles = {
 export const columns: ColumnDef<UserFiles>[] = [
     {
         accessorKey: "name",
-        header: "Kullanıcı",
+        header: "Dosya Adı",
     },
     {
         accessorKey: "url",

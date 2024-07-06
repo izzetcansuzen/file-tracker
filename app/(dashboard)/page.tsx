@@ -35,7 +35,6 @@ export default async function Home() {
 
     return (
         <div className='grid gap-4'>
-            {JSON.stringify(userNameAndIds, null, 2)}
             <div className='grid grid-cols-auto-fit-100 gap-2 justify-items-center'>
                 {cardData.map(cardData => {
                     return (
@@ -53,10 +52,7 @@ export default async function Home() {
                         allFileTypes={allFileTypes}
                     />
                 </div>
-                <DataTable
-                    columns={columns}
-                    data={fileData}
-                />
+                <DataTable columns={columns} data={fileData}/>
             </div>
         </div>
 )
