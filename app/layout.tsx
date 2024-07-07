@@ -6,6 +6,7 @@ import {
 } from '@clerk/nextjs'
 import {Toaster} from "@/components/ui/toaster";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,7 +19,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
+
+    return (
       <ClerkProvider>
         <html lang="en">
           <body className={inter.className}>
