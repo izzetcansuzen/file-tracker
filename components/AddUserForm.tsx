@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {addUser} from "@/db/queries";
 import {toast, useToast} from "@/components/ui/use-toast";
+import {useRouter} from "next/navigation";
 
 const formSchema = z.object({
     name: z.string().min(2, {
@@ -35,6 +36,7 @@ interface AddUserFormProps {
 
 export function AddUserForm({companies}: AddUserFormProps) {
     const {toast} = useToast()
+    const router = useRouter()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -51,7 +53,7 @@ export function AddUserForm({companies}: AddUserFormProps) {
             toast({
                 title: "Kullanıcı Eklendi!",
             })
-            console.log("eklendi")
+            router.refresh()
         }catch(err){
             console.log(err)
             toast({
