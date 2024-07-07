@@ -2,6 +2,7 @@ import db from "./drizzle"
 import {cache} from "react";
 import {files, users} from "@/db/schema";
 import {eq} from "drizzle-orm";
+import {User} from "@clerk/backend";
 
 export const getFiles = cache(async () => {
     const data = await db.query.files.findMany()
@@ -65,14 +66,13 @@ export const getUsersAndFiles = cache(async () => {
         const currentDate = new Date();
 
         if(userIndex === -1){
-            const pastDate = new Date(curr.files.endDate);
+            const pastDate = new Date(curr?.files?.endDate);
             const timeDifference = pastDate - currentDate;
 
             const millisecondsInADay = 24 * 60 * 60 * 1000;
             const daysDifference = Math.floor(timeDifference / millisecondsInADay);
 
             const fileRemainings = daysDifference < 5 ? [curr.files.endDate] : [];
-
 
             // @ts-ignore
             old.push({
@@ -112,3 +112,7 @@ export const getUsersAndFiles = cache(async () => {
 export const getCompanies = cache(() => {
     return db.query.companies.findMany()
 })
+
+export const addUser = async (user: Object) => {
+    return db.insert(users).values(user)
+}
