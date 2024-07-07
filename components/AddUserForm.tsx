@@ -15,9 +15,11 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {addUser} from "@/db/queries";
+import {toast, useToast} from "@/components/ui/use-toast";
 
 const formSchema = z.object({
-    username: z.string().min(2, {
+    name: z.string().min(2, {
         message: "Kullanıcı adı en az 2 karakterden oluşmalıdır.",
     }),
     companyId: z.string(),
@@ -32,16 +34,30 @@ interface AddUserFormProps {
 }
 
 export function AddUserForm({companies}: AddUserFormProps) {
+    const {toast} = useToast()
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
+            name: "",
             companyId: "",
             isActive: true,
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        try{
+            await addUser(values)
+            toast({
+                title: "Kullanıcı Eklendi!",
+            })
+            console.log("eklendi")
+        }catch(err){
+            console.log(err)
+            toast({
+                title: "Kullanıcı Eklenemedi",
+            })
+        }
         console.log(values)
     }
 
@@ -51,7 +67,7 @@ export function AddUserForm({companies}: AddUserFormProps) {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
                 <FormField
                     control={form.control}
-                    name="username"
+                    name="name"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Kullanıcı Adı</FormLabel>
